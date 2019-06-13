@@ -12,8 +12,12 @@ from nltk.corpus import stopwords
 
 nltk.download('stopwords')
 
-# Choose which types of words (eg. nouns, verbs) are desired. For POS tags, see https://universaldependencies.org/u/pos/
+"""
+Choose which types of words (eg. nouns, verbs) are desired.
+For POS tags, see https://universaldependencies.org/u/pos/
+"""
 wanted_pos = ['NOUN']
+
 
 def clean_text(text):
     """
@@ -27,7 +31,7 @@ def get_lemma(token):
     Get the lemma from the tokeniszed sentences
     """
     return [word.lemma for sent in token.sentences
-     for word in sent.words]
+            for word in sent.words]
 
 
 def remove_stop(words):
@@ -73,6 +77,7 @@ df['lemmas_string'] = df['lemmas'].apply(lambda x: " ".join(x))
 df['without_stop'] = df['lemmas'].apply(remove_stop)
 df['filtered'] = df['tokens'].apply(filter_pos)
 df['filtered'] = df['filtered'].apply(lambda x: ", ".join(x))
-df.drop(['tokens', 'lemmas', 'lemmas_string', 'without_stop'], axis=1, inplace=True)
+df.drop(['tokens', 'lemmas', 'lemmas_string', 'without_stop'],
+        axis=1, inplace=True)
 
 df.to_csv('output.csv')
